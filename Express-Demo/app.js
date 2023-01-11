@@ -1,18 +1,33 @@
 const express = require('express');
 const app = express();
 
+// Variable Declarations
+const courses = [
+    {id: 1, name: "course1"},
+    {id: 2, name: "course2"},
+    {id: 3, name: "course3"}
+]
+
 // GET Request
 app.get('/', (req, res) => {
     res.send('Hello World');
 });
 
 app.get('/api/courses', (req, res) => {
-    res.send([1, 2, 3, 4]);
+    res.send(courses)
+    //res.send([1, 2, 3, 4]);
 });
 
 // GET Request by reading param values
 app.get('/api/courses/:id', (req, res) => {
-    res.send("Details of Course: " + req.params.id);
+    const course = courses.find(c => c.id === parseInt(req.params.id))
+    if (!course) {
+        res.status(404);
+        res.send(`The Course with the given ID: ${req.params.id} was not found.`);
+    } else {
+        res.send(course);
+    }
+    //res.send("Details of Course: " + req.params.id);
 });
 
 app.get('/api/date/:month/:year', (req, res) => {
