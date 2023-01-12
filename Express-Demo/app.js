@@ -76,6 +76,25 @@ app.post('/api/courses', (req, res) => {
     res.send(course);
 });
 
+// PUT Request [Update Course Details]
+app.put('/api/courses/:id', (req,res) => {
+    // Check if Coourse Exists Else Through 404
+    const course = courses.find(c => c.id === parseInt(req.params.id))
+    if (!course) {
+        res.status(404);
+        res.send(`The Course with the given ID: ${req.params.id} was not found.`);
+        return;
+    }
+    // Check if Updation Values are Correct Else through 400
+    if (!req.body.name || req.body.name.length < 3) {
+        res.status(400).send('Please provide name with atleast 3 char long.');
+        return;
+    }
+    // Update the Course and return the result
+    course.name = req.body.name
+    res.send(course);
+});
+
 // In Hosting Environment Port are assigned dynamically so below code is used
 // If env variable is not set than default value is picked which is 3000 in this case
 // To set environment variable use below commands
