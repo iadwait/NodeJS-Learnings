@@ -95,6 +95,28 @@ app.put('/api/courses/:id', (req,res) => {
     res.send(course);
 });
 
+// DELETE Request
+app.delete('/api/courses/:id', (req, res) => {
+    // Find the Course
+    // If Not present return 404
+    const course = courses.find(c => c.id === parseInt(req.params.id))
+    if (!course) {
+        res.status(404);
+        res.send(`The Course with the given ID: ${req.params.id} was not found.`);
+        return;
+    }
+
+    // Optimized Way for above code
+    //if (!course) return res.status(404).send(`The Course with the given ID: ${req.params.id} was not found.`);
+
+    // Delete the course
+    const index = courses.indexOf(course)
+    courses.splice(index, 1);
+
+    // Show Response
+    res.send(course);
+});
+
 // In Hosting Environment Port are assigned dynamically so below code is used
 // If env variable is not set than default value is picked which is 3000 in this case
 // To set environment variable use below commands
