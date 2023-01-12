@@ -1,6 +1,9 @@
 const express = require('express');
 const app = express();
 
+// Below line required to parse request body -> req.body.name
+app.use(express.json());
+
 // Variable Declarations
 const courses = [
     {id: 1, name: "course1"},
@@ -37,6 +40,16 @@ app.get('/api/date/:month/:year', (req, res) => {
 });
 
 // Note: - In request values taken after / are mandatory stuff and that taken in query parameters are optional stuff
+
+// POST Request
+app.post('/api/courses', (req, res) => {
+    const course = {
+        id: courses.length + 1,
+        name: req.body.name
+    }
+    courses.push(course);
+    res.send(course);
+});
 
 // In Hosting Environment Port are assigned dynamically so below code is used
 // If env variable is not set than default value is picked which is 3000 in this case
