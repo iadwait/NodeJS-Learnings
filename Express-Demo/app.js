@@ -1,4 +1,5 @@
 const express = require('express');
+const Joi = require('joi');
 const app = express();
 
 // Below line required to parse request body -> req.body.name
@@ -44,10 +45,29 @@ app.get('/api/date/:month/:year', (req, res) => {
 // POST Request
 app.post('/api/courses', (req, res) => {
     // Validate if name is present
-    if (!req.body.name || req.body.name < 3) {
+
+    // Manual Validations
+    if (!req.body.name || req.body.name.length < 3) {
+        // 400 - Bad Request
         res.status(400).send('Please provide name with atleast 3 char long.');
         return;
     }
+
+    // TODO: - To be debugged. Facing Error
+    // Validations with Joi
+    // const schema = {
+    //     name: Joi.string().min(3).required()
+    // };
+
+    // const result = Joi.validate(req.body);
+    // console.log(result);
+
+    // if (result.error) {
+    //     // 400 - Bad Request
+    //     res.status(400).send(result.error.details[0].message);
+    //     return;
+    // }
+
     const course = {
         id: courses.length + 1,
         name: req.body.name
