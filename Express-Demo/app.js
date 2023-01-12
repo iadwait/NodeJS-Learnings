@@ -43,6 +43,11 @@ app.get('/api/date/:month/:year', (req, res) => {
 
 // POST Request
 app.post('/api/courses', (req, res) => {
+    // Validate if name is present
+    if (!req.body.name || req.body.name < 3) {
+        res.status(400).send('Please provide name with atleast 3 char long.');
+        return;
+    }
     const course = {
         id: courses.length + 1,
         name: req.body.name
